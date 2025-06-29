@@ -11,7 +11,7 @@ function createWindow() {
     }
   })
   win.maximize()
-  win.loadFile('index.html')
+  win.loadFile('site/index.html')
 }
 
 app.whenReady().then(createWindow)

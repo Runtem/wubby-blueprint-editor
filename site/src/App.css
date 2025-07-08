@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     border: 0;
+    font-family: "Inter", sans-serif;
 }
 
 :root {
@@ -24,7 +25,20 @@
     background-position: var(--grid-x-pos) var(--grid-y-pos);
 }
 
-.grid > * {
+.grid-element {
     position: absolute;
     transform: translate(var(--grid-x-pos), var(--grid-y-pos));
+    width: 200px;
+    height: auto;
+    min-height: 100px;
+    max-height: 1000px;
+    border-radius: 10px;
+    border: 2px solid red;
+    background-image: linear-gradient(to bottom, rgb(185, 0, 0), rgb(139, 0,0));
+    color: white;
+    cursor: pointer;
+}
+
+.grid-element > span {
+    font-weight: bold;
 }

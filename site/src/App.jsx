@@ -1,7 +1,52 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 
+const tileSize = 30;
+
+const elements = [
+    {
+        id: 1,
+        label: "Frame Loop Block",
+        position: { x: 0, y: 0 },
+        enabledProperties: [
+            "label", "id"
+        ],
+    },
+    {
+        id: 2,
+        label: "Frame Loop Block",
+        position: { x: 2, y: 1 },
+        enabledProperties: [
+            "label", "id"
+        ],
+    },
+    {
+        id: 3,
+        label: "Frame Loop Block",
+        position: { x: -1, y: -2 },
+        enabledProperties: [
+            "label", "id"
+        ],
+    },
+];
+
 function App() {
+    const [screenCenter, setScreenCenter] = useState({
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+    });
+
+    useEffect(() => {
+        const updateCenter = () => {
+            setScreenCenter({
+                x: window.innerWidth / 2,
+                y: window.innerHeight / 2,
+            });
+        };
+        window.addEventListener("resize", updateCenter);
+        return () => window.removeEventListener("resize", updateCenter);
+    }, []);
+
     useEffect(() => {
         let isDragging = false;
         let startX = 0;
@@ -10,9 +55,9 @@ function App() {
         let offsetY = 0;
 
         const handleMouseDown = (e) => {
-            e.preventDefault(); // prevent selection
+            e.preventDefault();
             isDragging = true;
-            // Get current values of CSS variables
+
             const root = document.documentElement;
             offsetX =
                 parseInt(
@@ -59,10 +104,27 @@ function App() {
             window.removeEventListener("mouseup", handleMouseUp);
         };
     }, []);
+
     return (
         <div className="App">
             <div className="grid">
-                <h1>Yeah!</h1>
+                {elements.map((el) => {
+                    const px = screenCenter.x + el.position.x * tileSize;
+                    const py = screenCenter.y + el.position.y * tileSize;
+                    return (
+                        <button
+                            key={el.id}
+                            className="grid-element"
+                            style={{
+                                left: `${px}px`,
+                                top: `${py}px`,
+                            }}
+                        >
+                            <span>{el.label}</span>
+                            <br></br>
+                        </button>
+                    );
+                })}
             </div>
         </div>
     );
